@@ -1,0 +1,106 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "debug",
+      "displayName": "Debug",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      }
+    },
+    {
+      "name": "production",
+      "displayName": "Production",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/production",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "debug",
+      "configurePreset": "debug",
+      "targets": [
+        "run"
+      ]
+    },
+    {
+      "name": "production",
+      "configurePreset": "production"
+    },
+    {
+      "name": "test",
+      "configurePreset": "debug",
+      "targets": [
+        "eso_cpp_tests"
+      ]
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "test",
+      "configurePreset": "debug",
+      "environment": {
+        "GTEST_COLOR": "yes"
+      },
+      "output": {
+        "outputOnFailure": true,
+        "verbosity": "verbose"
+      }
+    }
+  ],
+  "workflowPresets": [
+    {
+      "name": "debug",
+      "displayName": "Debug: configure, build and run",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "debug"
+        },
+        {
+          "type": "build",
+          "name": "debug"
+        }
+      ]
+    },
+    {
+      "name": "production",
+      "displayName": "Production: configure and build",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "production"
+        },
+        {
+          "type": "build",
+          "name": "production"
+        }
+      ]
+    },
+		{
+      "name": "test",
+      "displayName": "Test: configure, build and run tests",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "debug"
+        },
+        {
+          "type": "build",
+          "name": "test"
+        },
+        {
+          "type": "test",
+          "name": "test"
+        }
+      ]
+    }
+  ]
+}
