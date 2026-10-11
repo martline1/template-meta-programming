@@ -41,7 +41,7 @@ struct meta_omit<
 			meta_list<Element>
 		>;
 
-		using filtered_meta_list = meta_merge_t<filter<Items>...>;
+		using filtered_meta_list = meta_merge_t<meta_list<>, filter<Items>...>;
 
 		using result = meta_transfer_t<filtered_meta_list, Container>;
 

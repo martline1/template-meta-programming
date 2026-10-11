@@ -13,12 +13,4 @@ template<MatchesVariadicInstance<std::variant>... Ts>
 using variant_merge_t =	meta_merge_t<Ts...>;
 
 
-
-
-
-
-
-
-
-
 } // namespace core::meta

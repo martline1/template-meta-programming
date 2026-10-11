@@ -38,8 +38,9 @@ struct meta_merge<FirstParam, SecondParam, Rest...> {
 };
 
 
-template<VariadicInstance FirstParam, VariadicInstance... RestOfParams>
-using meta_merge_t = typename meta_merge<FirstParam, RestOfParams...>::type;
+template<VariadicInstance... Params>
+requires (sizeof...(Params) > 0)
+using meta_merge_t = typename meta_merge<Params...>::type;
 
 
 } // namespace core::meta

@@ -1,9 +1,6 @@
 #pragma once
 
-#include <concepts>
 #include <type_traits>
-
-#include "../meta_structures/meta_mono.hpp"
 
 namespace core::meta
 {
@@ -12,8 +9,9 @@ namespace core::meta
 namespace detail
 {
 
-	template<typename... Ts>
-	struct DuplicateChecker: meta_mono<Ts>... {};
+	template<typename ToFind, typename... Items>
+	static constexpr size_t count_occurrences =
+		(0 + ... + static_cast<size_t>(std::is_same_v<ToFind, Items>));
 
 } // namespace detail
 
@@ -21,9 +19,7 @@ namespace detail
 template<typename... Ts>
 concept HasNoDuplicates =
 	sizeof...(Ts) <= 1 ||
-	requires(detail::DuplicateChecker<Ts...>& checker) {
-		(static_cast<void>(static_cast<meta_mono<Ts>&>(checker)), ...);
-	};
+	((detail::count_occurrences<Ts, Ts...> == 1) && ...);
 
 
 template<typename... Ts>
